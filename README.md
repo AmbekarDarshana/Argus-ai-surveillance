@@ -33,7 +33,8 @@
 
 ### 🧠 Real-Time YOLOv8 Anomaly Detection & Evidence Capture
 <p align="center">
-  <img src="C:\Users\darsh\OneDrive\Pictures\Screenshot 2026-11-09 190509.png" alt="Argus AI Real-Time Detection" width="100%"/>
+  <img src="<img width="1912" height="977" alt="image" src="https://github.com/user-attachments/assets/a7a9d69a-9798-456b-914d-0df2f06a0c0d" />
+" alt="Argus AI Real-Time Detection" width="100%"/>
 </p>
 
 ---
@@ -41,13 +42,16 @@
 ### 📊 Client Behavior Dashboard & Multi-Camera Control
 | Client Behavior Dashboard | Self-Service Camera Management |
 |:---:|:---:|
-| <img src="C:\Users\darsh\OneDrive\Pictures\Screenshot 2026-11-09 190542.png" width="100%"/> | <img src="C:\Users\darsh\OneDrive\Pictures\Screenshot 2026-11-09 190631.png width="100%"/> |
+| <img src="C<img width="1917" height="1032" alt="image" src="https://github.com/user-attachments/assets/2284c93d-9269-45c1-8027-96b473e11539" />
+" width="100%"/> | <img src="<img width="1917" height="1027" alt="image" src="https://github.com/user-attachments/assets/d784fc43-7e3c-4c4e-b66d-629e1d05cfcf" />
+" width="100%"/> |
 
 ---
 
 ### 🛡️ Admin System Governance & Global Threat Analytics
 <p align="center">
-  <img src="C:\Users\darsh\OneDrive\Pictures\Screenshot 2026-11-09 190356.png" alt="Admin Analytics Hub" width="100%"/>
+  <img src="<img width="1897" height="971" alt="image" src="https://github.com/user-attachments/assets/d910f616-e761-417f-99f0-bd3eb727d6bb" />
+" alt="Admin Analytics Hub" width="100%"/>
 </p>
 
 ## 🏗️ System Architecture
