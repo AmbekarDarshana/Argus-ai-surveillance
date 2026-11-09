@@ -1,3 +1,4 @@
+<img width="1897" height="971" alt="Screenshot 2026-11-09 190356" src="https://github.com/user-attachments/assets/ac9d3a90-e878-43d4-9fc7-81c6ba537053" />
 # 👁️ Argus AI — Intelligent Video Surveillance & Behavioral Analysis
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
@@ -47,7 +48,7 @@
 
 ### 🛡️ Admin System Governance & Global Threat Analytics
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/d910f616-e761-49f0-99f0-bd3eb727d6bb" alt="Admin Analytics Hub" width="100%"/>
+  <img src="https://github.com/user-attachments/assets/06b48e9c-818f-4666-8703-1324ffc50011" alt="Admin Analytics Hub" width="100%"/>
 </p>
 ## 🏗️ System Architecture
 
