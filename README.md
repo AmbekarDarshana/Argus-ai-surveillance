@@ -1,44 +1,104 @@
-# 🎥 AI Video Surveillance with Behavior Anomaly Detection
+# 👁️ Argus AI — Intelligent Video Surveillance & Behavioral Analysis
 
-An intelligent surveillance system that uses deep learning to detect unusual 
-behavioral patterns in real-time video feeds.
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
+![Flask](https://img.shields.io/badge/Flask-3.0%2B-000000?style=for-the-badge&logo=flask)
+![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-FF6F00?style=for-the-badge)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-## 🚀 Features
+**Argus AI** is a scalable, multi-tenant video surveillance platform that leverages advanced computer vision (**YOLOv8**) to transform standard camera feeds into active behavioral intelligence. Designed for enterprise security, it detects structural intrusions, behavioral anomalies, and safety compliance breaches in real-time.
 
-- Real-time object detection using YOLOv8
-- Behavior anomaly classification
-- Web-based monitoring dashboard
-- Live camera streaming support
-- Alert generation system
-- User authentication & role management
-- Admin analytics panel
+---
 
-## 🛠️ Tech Stack
+## 🌟 Key Features
 
-**Backend:**
-- Python 3.9+
-- Flask
-- PyTorch
-- OpenCV
-- YOLOv8 (Ultralytics)
+### 🧠 Real-Time AI Detection Engine
+* **Threat & Object Detection**: Utilizes Ultralytics YOLOv8 to identify unauthorized personnel, weapons, vehicles in restricted zones, and fallen individuals.
+* **Dynamic Bounding & Analytics**: Real-time video frame annotation with severity-based risk categorization (`CRITICAL`, `WARNING`, `INFO`).
+* **Multi-Source Ingestion**: Processes RTSP IP camera streams, local hardware webcams, and pre-recorded MP4/AVI security footage flawlessly.
 
-**Frontend:**
-- HTML5/CSS3
-- JavaScript
-- Bootstrap
-- Chart.js
+### 🛡️ Enterprise Multi-Tenant Architecture
+* **Role-Based Access Control (RBAC)**: Strict cryptographic isolation between `Admin` supervisors and `Client` tenants.
+* **Tenant Data Privacy**: Clients only have visibility into cameras, event logs, and analytics explicitly bound to their `owner_id`.
+* **Centralized Governance**: Dedicated admin hub for system-wide analytics, user lifecycle management, and global audit trails.
 
-**Database:**
-- MongoDB
+### 📊 Behavioral Dashboard & Incident Response
+* **Live Asynchronous Alerts**: In-app toast notification system powered by background event polling for instant threat awareness.
+* **Evidence Management**: Filterable behavioral logs linked to timestamped snapshot captures and incident classifications.
+* **Interactive Analytics**: Daily and weekly threat progression charts generated via complex MongoDB aggregation pipelines.
 
-## ⚙️ Installation
+---
 
-```bash
-# Clone repository
-git clone https://github.com/AmbekarDarshana/ai-surveillance.git
+## 📸 System Previews
 
-# Install dependencies
+*(Replace these placeholders with actual screenshots of your application)*
+
+| Dashboard & Analytics | Live Anomaly Detection |
+|:---:|:---:|
+| <img src="https://via.placeholder.com/600x300.png?text=Dashboard+Screenshot" alt="Dashboard" width="100%"> | <img src="https://via.placeholder.com/600x300.png?text=Live+Detection+Screenshot" alt="Live Detection" width="100%"> |
+
+---
+
+## 🏗️ System Architecture
+
+```text
+                                    ┌──────────────────────┐
+                                    │   Web Browsers / UI  │
+                                    └──────────┬───────────┘
+                                               │ HTTP / WebSocket
+┌──────────────────────────────────────────────▼──────────────────────────────────────────────┐
+│                                       Flask Web Engine                                      │
+│                                                                                             │
+│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌──────────────────┐  │
+│  │ Auth & RBAC     │    │ Camera Manager  │    │ Analytics Hub   │    │ Live Streamer    │  │
+│  └────────┬────────┘    └────────┬────────┘    └────────┬────────┘    └────────┬─────────┘  │
+└───────────┼──────────────────────┼──────────────────────┼──────────────────────┼────────────┘
+            │                      │                      │                      │
+            ▼                      ▼                      ▼                      ▼
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 Core Processing Engines                                     │
+│     ┌───────────────────────────────────┐       ┌──────────────────────────────────────┐    │
+│     │    YOLOv8 Anomaly Classifier      │       │      Detector Event Dispatcher       │    │
+│     └─────────────────┬─────────────────┘       └──────────────────┬───────────────────┘    │
+└───────────────────────┼────────────────────────────────────────────┼────────────────────────┘
+                        │                                            │
+           ┌────────────▼────────────┐                  ┌────────────▼────────────┐
+           │  MongoDB Atlas Database │                  │   Local Storage System  │
+           │  (Users, Cameras, Logs) │                  │ (Static Frames/Uploads) │
+           └─────────────────────────┘                  └─────────────────────────┘
+🛠️ Tech Stack
+Backend: Python 3.10+, Flask, Waitress (WSGI)
+Computer Vision: OpenCV (cv2), Ultralytics YOLOv8, PyTorch
+Database: MongoDB Atlas / PyMongo
+Security: Bcrypt password hashing, Flask-Session management
+Frontend: HTML5, Bootstrap 5, FontAwesome 6, Vanilla JS
+
+🚀 Quick Start & Installation
+1. Prerequisites
+Python 3.10 or higher
+MongoDB Atlas connection string (or local MongoDB server)
+Compatible webcam (optional, for the Live Testing Lab)
+2. Clone the Repository
+
+git clone https://github.com/YOUR_USERNAME/argus-ai.git
+cd argus-ai
+
+3. Initialize Virtual Environment
+# Windows
+python -m venv .venv
+.venv\Scripts\activate
+
+4. Install Dependencies
 pip install -r requirements.txt
 
-# Run application
-python app.py
+5. Environment Configuration
+Create a .env file in the root directory. Never commit this file to version control.
+
+6. Boot the System
+python run.py
+Navigate to http://127.0.0.1:5000 in your browser.
+
+🔒 Security Architecture Highlights
+Thread-Safe Camera Allocation: Hardware video sources are locked to the active user's session to prevent unauthorized feed hijacking across tenants.
+Strict Route Authorization: Every API and rendering route enforces multi-layered RBAC checks to prevent vertical and horizontal privilege escalation.
+Failsafe Account Protections: Root administrators are structurally prevented from inadvertently disabling their own system access.
