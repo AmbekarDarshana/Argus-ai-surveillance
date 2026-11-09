@@ -49,8 +49,6 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/d910f616-e761-49f0-99f0-bd3eb727d6bb" alt="Admin Analytics Hub" width="100%"/>
 </p>
-
-
 ## 🏗️ System Architecture
 
 ```text
