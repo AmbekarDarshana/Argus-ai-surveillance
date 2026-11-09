@@ -31,13 +31,24 @@
 
 ## 📸 System Previews
 
-*(Replace these placeholders with actual screenshots of your application)*
-
-| Dashboard & Analytics | Live Anomaly Detection |
-|:---:|:---:|
-| <img src="https://via.placeholder.com/600x300.png?text=Dashboard+Screenshot" alt="Dashboard" width="100%"> | <img src="https://via.placeholder.com/600x300.png?text=Live+Detection+Screenshot" alt="Live Detection" width="100%"> |
+### 🧠 Real-Time YOLOv8 Anomaly Detection & Evidence Capture
+<p align="center">
+  <img src="C:\Users\darsh\OneDrive\Pictures\Screenshot 2026-11-09 190509.png" alt="Argus AI Real-Time Detection" width="100%"/>
+</p>
 
 ---
+
+### 📊 Client Behavior Dashboard & Multi-Camera Control
+| Client Behavior Dashboard | Self-Service Camera Management |
+|:---:|:---:|
+| <img src="C:\Users\darsh\OneDrive\Pictures\Screenshot 2026-11-09 190542.png" width="100%"/> | <img src="C:\Users\darsh\OneDrive\Pictures\Screenshot 2026-11-09 190631.png width="100%"/> |
+
+---
+
+### 🛡️ Admin System Governance & Global Threat Analytics
+<p align="center">
+  <img src="C:\Users\darsh\OneDrive\Pictures\Screenshot 2026-11-09 190356.png" alt="Admin Analytics Hub" width="100%"/>
+</p>
 
 ## 🏗️ System Architecture
 
