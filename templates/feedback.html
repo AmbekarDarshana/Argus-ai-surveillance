@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="fw-bold mb-4">Review Anomaly</h2>
+    <div class="card mb-4"><div class="card-body">
+        <div><strong>Type:</strong> {{ anomaly.anomaly_type|default('Unknown') }}</div>
+        <div><strong>Detected:</strong> {{ anomaly.detection_time|default('') }}</div>
+        <div><strong>Details:</strong> {{ anomaly.description|default('No additional details') }}</div>
+    </div></div>
+    <form method="POST" action="{{ url_for('anomaly.submit_feedback') }}" class="card card-body">
+        <input type="hidden" name="anomaly_id" value="{{ anomaly._id }}">
+        <label class="form-label" for="label">Was this a real anomaly?</label>
+        <select class="form-select mb-3" id="label" name="label" required>
+            <option value="true_positive">Yes, this is a real anomaly</option>
+            <option value="false_alarm">No, this is a false alarm</option>
+        </select>
+        <label class="form-label" for="comments">Comments (optional)</label>
+        <textarea class="form-control mb-3" id="comments" name="comments" rows="3"></textarea>
+        <button class="btn btn-primary align-self-start" type="submit">Submit feedback</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <a class="btn btn-link px-0 mb-3" href="{{ url_for('support.tickets') }}">Back to tickets</a>
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between"><strong>{{ ticket.subject }}</strong><span class="badge bg-secondary">{{ ticket.status }}</span></div>
+        <div class="card-body"><div class="text-muted small mb-2">{{ ticket.user_name|default(ticket.user_id|default('')) }} · {{ ticket.created_at|default('') }}</div><p class="mb-0">{{ ticket.message }}</p></div>
+    </div>
+    {% if ticket.reply %}<div class="alert alert-info"><strong>Support reply</strong><p class="mb-0 mt-2">{{ ticket.reply }}</p></div>{% endif %}
+    {% if role == 'admin' %}
+    <form method="POST" action="{{ url_for('support.reply_ticket', ticket_id=ticket._id) }}" class="card card-body">
+        <label class="form-label" for="reply">Reply to customer</label>
+        <textarea class="form-control mb-3" id="reply" name="reply" rows="4" required></textarea>
+        <button class="btn btn-primary align-self-start" type="submit">Send reply</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

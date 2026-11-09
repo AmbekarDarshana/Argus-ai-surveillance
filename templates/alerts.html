@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2 class="fw-bold mb-4">Alert Rules</h2>
+    <form method="POST" action="{{ url_for('features.create_alert') }}" class="card card-body mb-4">
+        <div class="row g-3">
+            <div class="col-md-3"><label class="form-label">Rule name</label><input class="form-control" name="name" required></div>
+            <div class="col-md-3"><label class="form-label">Anomaly type</label><input class="form-control" name="anomaly_type" required></div>
+            <div class="col-md-2"><label class="form-label">Per-hour threshold</label><input class="form-control" type="number" min="1" name="threshold" value="5" required></div>
+            <div class="col-md-3"><label class="form-label">Notification email</label><input class="form-control" type="email" name="email" required></div>
+            <div class="col-md-1 d-flex align-items-end"><button class="btn btn-primary" type="submit">Add</button></div>
+        </div>
+        <input type="hidden" name="trigger_type" value="anomaly">
+        <input type="hidden" name="enabled" value="on">
+    </form>
+    <div class="card"><div class="table-responsive"><table class="table mb-0">
+        <thead><tr><th>Name</th><th>Type</th><th>Threshold</th><th>Status</th><th></th></tr></thead>
+        <tbody>{% for rule in rules %}
+            <tr>
+                <td>{{ rule.name }}</td>
+                <td>{{ rule.condition.anomaly_type|default('Any') }}</td>
+                <td>{{ rule.condition.anomalies_per_hour|default('—') }}</td>
+                <td>{{ 'Enabled' if rule.enabled else 'Disabled' }}</td>
+                <td><form method="POST" action="{{ url_for('features.delete_alert', alert_id=rule._id) }}"><button class="btn btn-sm btn-outline-danger" type="submit">Delete</button></form></td>
+            </tr>
+        {% else %}<tr><td colspan="5" class="text-center text-muted py-4">No alert rules configured.</td></tr>{% endfor %}</tbody>
+    </table></div></div>
+</div>
+{% endblock %}

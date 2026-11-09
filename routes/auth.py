@@ -19,7 +19,7 @@ def register():
                 flash(f'❌ Error: {str(e)}', 'danger')
         else:
             flash('❌ Invalid data', 'danger')
-    return render_template('auth/register.html')
+    return render_template('auth/signup.html')
 
 import bcrypt 
 

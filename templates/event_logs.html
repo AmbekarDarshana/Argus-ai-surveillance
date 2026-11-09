@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">Anomaly Events</h2>
+        <a class="btn btn-outline-primary" href="{{ url_for('features.export_anomalies') }}">Export CSV</a>
+    </div>
+    <form method="GET" class="row g-2 mb-4">
+        <div class="col-md-3"><input class="form-control" name="type" placeholder="Anomaly type" value="{{ filters.type or '' }}"></div>
+        <div class="col-md-3"><input class="form-control" name="camera" placeholder="Camera ID" value="{{ filters.camera or '' }}"></div>
+        <div class="col-md-2"><input class="form-control" type="datetime-local" name="start" value="{{ filters.start or '' }}"></div>
+        <div class="col-md-2"><input class="form-control" type="datetime-local" name="end" value="{{ filters.end or '' }}"></div>
+        <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Filter</button></div>
+    </form>
+    <div class="card"><div class="table-responsive"><table class="table table-hover mb-0">
+        <thead><tr><th>Type</th><th>Camera</th><th>Time</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+        {% for anomaly in anomalies %}
+            <tr>
+                <td>{{ anomaly.anomaly_type|default('Unknown') }}</td>
+                <td>{{ video_map.get(anomaly.video_id|string, anomaly.video_id|default('Unknown')) }}</td>
+                <td>{{ anomaly.detection_time|default(anomaly.frame_timestamp|default('')) }}</td>
+                <td>{{ anomaly.status|default('pending') }}</td>
+                <td><a href="{{ url_for('anomaly.feedback_page', anomaly_id=anomaly._id) }}">Review</a></td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5" class="text-center text-muted py-4">No anomaly events found.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table></div></div>
+</div>
+{% endblock %}

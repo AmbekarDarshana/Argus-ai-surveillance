@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2 class="fw-bold mb-4">{{ 'All Support Tickets' if role == 'admin' else 'My Support Tickets' }}</h2>
+    <div class="card"><div class="table-responsive"><table class="table table-hover mb-0">
+        <thead><tr><th>Subject</th><th>Customer</th><th>Status</th><th>Created</th><th></th></tr></thead>
+        <tbody>{% for ticket in tickets %}
+            <tr><td>{{ ticket.subject }}</td><td>{{ ticket.user_name|default(ticket.user_id|default('')) }}</td><td>{{ ticket.status }}</td><td>{{ ticket.created_at|default('') }}</td><td><a href="{{ url_for('support.view_ticket', ticket_id=ticket._id) }}">View</a></td></tr>
+        {% else %}<tr><td colspan="5" class="text-center text-muted py-4">No support tickets found.</td></tr>{% endfor %}</tbody>
+    </table></div></div>
+</div>
+{% endblock %}
