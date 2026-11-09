@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Video Surveillance</title>
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    
+
     <style>
         /* Sidebar Toggle Logic */
         body.sidebar-collapsed #sidebar {
@@ -21,7 +22,7 @@
             flex: 0 0 100%;
             max-width: 100% !important;
         }
-        
+
         /* Sidebar Styling */
         #sidebar .nav-link {
             color: rgba(255, 255, 255, 0.8);
@@ -31,252 +32,269 @@
             transition: all 0.2s;
         }
         #sidebar .nav-link:hover {
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255, 255, 255, 0.1);
             color: #fff;
             transform: translateX(5px);
         }
         #sidebar .nav-link.active {
             background-color: #0d6efd;
             color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sidebar Section Labels */
+        .sidebar-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
         }
     </style>
 </head>
 
 <body>
 
-<!-- TOP NAVBAR -->
+<!-- ===================== TOP NAVBAR ===================== -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
-  <div class="container-fluid">
-    <div class="d-flex align-items-center">
-      {% if user %}
-      <button id="sidebarToggle" class="btn btn-outline-secondary btn-sm me-3">
-        <i class="fas fa-bars"></i>
-      </button>
-      {% endif %}
-      
-      <a class="navbar-brand fw-bold text-uppercase" href="/">
-        <i class="fas fa-eye text-primary me-2"></i>AI Surveillance
-      </a>
-      <span class="badge bg-primary ms-1">YOLOv8</span>
+    <div class="container-fluid">
+        <div class="d-flex align-items-center">
+            {% if user %}
+            <button id="sidebarToggle" class="btn btn-outline-secondary btn-sm me-3">
+                <i class="fas fa-bars"></i>
+            </button>
+            {% endif %}
+
+            <a class="navbar-brand fw-bold text-uppercase" href="/">
+                <i class="fas fa-eye text-primary me-2"></i>AI Surveillance
+            </a>
+            <span class="badge bg-primary ms-1">YOLOv8</span>
+        </div>
+
+        <div class="navbar-nav ms-auto align-items-center">
+            {% if user %}
+                <div class="d-flex align-items-center text-white small">
+                    <div class="text-end me-3">
+                        <div class="fw-bold">
+                            {{ user.name }}
+                            {% if session.get('role') == 'admin' %}
+                                <span class="badge bg-warning text-dark ms-1">ADMIN</span>
+                            {% endif %}
+                        </div>
+                        <div class="text-muted" style="font-size: 0.75rem;">{{ user.email }}</div>
+                    </div>
+                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                         style="width: 35px; height: 35px;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm fw-bold px-4">Login</a>
+            {% endif %}
+        </div>
     </div>
-    
-    <div class="navbar-nav ms-auto align-items-center">
-      {% if user %}
-          <!-- User Info -->
-          <div class="d-flex align-items-center text-white small">
-             <div class="text-end me-3">
-                 <div class="fw-bold">{{ user.name }}</div>
-                 <div class="text-muted" style="font-size: 0.75rem;">{{ user.email }}</div>
-             </div>
-             <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
-                <i class="fas fa-user"></i>
-             </div>
-          </div>
-      {% else %}
-          <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm fw-bold px-4">Login</a>
-      {% endif %}
-    </div>
-  </div>
 </nav>
 
-<!-- MAIN LAYOUT -->
+<!-- ===================== MAIN LAYOUT ===================== -->
 <div class="container-fluid">
-  <div class="row">
-    
-    <!-- SIDEBAR (Visible if User Logged In) -->
-        <!-- SIDEBAR -->
-    {% if user %}
-    
-    <nav id="sidebar" class="col-md-2 bg-dark text-white p-3" style="min-height: 100vh; border-right: 1px solid #333;">
-        
-        <div class="small text-uppercase text-muted fw-bold mb-2 mt-2" style="font-size: 0.7rem;">Main Menu</div>
-        
-        <!-- START OF THE LIST -->
-        <ul class="nav nav-pills flex-column mb-auto">
-            
-            <li class="nav-item">
-                <a href="{{ url_for('main.dashboard') }}" class="nav-link {% if request.endpoint == 'main.dashboard' %}active{% endif %}">
-                    <i class="fas fa-home me-2" style="width: 20px;"></i> Home
+    <div class="row">
+
+        <!-- ===================== SIDEBAR ===================== -->
+        {% if user %}
+        <nav id="sidebar" class="col-md-2 bg-dark text-white p-3"
+             style="min-height: 100vh; border-right: 1px solid #333;">
+
+            <div class="sidebar-label text-uppercase text-muted fw-bold mb-2 mt-2">Main Menu</div>
+
+            <ul class="nav nav-pills flex-column mb-auto">
+
+                <!-- HOME -->
+                <li class="nav-item">
+                    <a href="{{ url_for('main.dashboard') }}"
+                       class="nav-link {% if request.endpoint == 'main.dashboard' %}active{% endif %}">
+                        <i class="fas fa-home me-2" style="width: 20px;"></i> Home
+                    </a>
+                </li>
+
+                <!-- MY CAMERAS (single entry, works for both admin + client) -->
+                <li class="nav-item">
+                    <a href="{{ url_for('cameras.my_cameras') }}"
+                       class="nav-link {% if request.endpoint and 'cameras.' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-video me-2" style="width: 20px;"></i> My Cameras
+                    </a>
+                </li>
+
+                <!-- LIVE WEBCAM DEMO (Sandbox Lab) -->
+                <li class="nav-item">
+                    <a href="{{ url_for('live.live_dashboard') }}"
+                       class="nav-link {% if request.endpoint == 'live.live_dashboard' %}active{% endif %}">
+                        <i class="fas fa-flask me-2" style="width: 20px;"></i> Webcam Demo (Lab)
+                    </a>
+                </li>
+
+                <!-- ============ CLIENT ONLY SECTION ============ -->
+                {% if session.get('role') != 'admin' %}
+                <li class="nav-item my-3 border-top border-secondary"></li>
+                <li class="nav-item mb-2 sidebar-label text-uppercase text-muted fw-bold">My Account</li>
+
+                <li class="nav-item">
+                    <a href="{{ url_for('main.subscription') }}"
+                       class="nav-link {% if request.endpoint == 'main.subscription' %}active{% endif %}">
+                        <i class="fas fa-credit-card me-2" style="width: 20px;"></i> Subscription
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ url_for('main.support') }}"
+                       class="nav-link {% if request.endpoint == 'main.support' %}active{% endif %}">
+                        <i class="fas fa-headset me-2" style="width: 20px;"></i> Support
+                    </a>
+                </li>
+                {% endif %}
+
+                <!-- ============ ADMIN ONLY SECTION ============ -->
+                {% if session.get('role') == 'admin' %}
+                <li class="nav-item my-3 border-top border-secondary"></li>
+                <li class="nav-item mb-2 sidebar-label text-uppercase text-muted fw-bold">Admin Controls</li>
+
+                <li class="nav-item">
+                    <a href="{{ url_for('video.video_management') }}"
+                       class="nav-link {% if request.endpoint and 'video' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-film me-2" style="width: 20px;"></i> Manage Videos
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ url_for('features.manage_cameras') }}"
+                       class="nav-link {% if request.endpoint == 'features.manage_cameras' %}active{% endif %}">
+                        <i class="fas fa-cog me-2" style="width: 20px;"></i> Configure Cameras
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ url_for('admin.manage_users') }}"
+                       class="nav-link {% if request.endpoint == 'admin.manage_users' %}active{% endif %}">
+                        <i class="fas fa-users-cog me-2" style="width: 20px;"></i> Users
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ url_for('admin.global_stats') }}"
+                       class="nav-link {% if request.endpoint == 'admin.global_stats' %}active{% endif %}">
+                        <i class="fas fa-chart-pie me-2" style="width: 20px;"></i> Analytics
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ url_for('admin.config') }}"
+                       class="nav-link {% if request.endpoint == 'admin.config' %}active{% endif %}">
+                        <i class="fas fa-sliders-h me-2" style="width: 20px;"></i> Settings
+                    </a>
+                </li>
+                {% endif %}
+
+            </ul>
+
+            <!-- LOGOUT (Fixed Bottom) -->
+            <div class="mt-auto pt-4 border-top border-secondary">
+                <a href="{{ url_for('auth.logout') }}" class="nav-link text-danger">
+                    <i class="fas fa-sign-out-alt me-2" style="width: 20px;"></i> Logout
                 </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="{{ url_for('cameras.my_cameras') }}" class="nav-link {% if request.endpoint and 'cameras.' in request.endpoint %}active{% endif %}">
-                    <i class="fas fa-house-signal me-2" style="width: 20px;"></i> My Cameras
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="{{ url_for('live.live_dashboard') }}" class="nav-link {% if request.endpoint == 'live.live_dashboard' %}active{% endif %}">
-                    <i class="fas fa-video me-2" style="width: 20px;"></i> Webcam Demo (local test)
-                </a>
-            </li>
-
-           <!-- CLIENT ONLY SECTION -->
-{% if session.get('role') != 'admin' %}
-<li class="nav-item my-3 border-top border-secondary"></li>
-<li class="nav-item mb-2 small text-uppercase text-muted fw-bold" style="font-size: 0.7rem;">My Account</li>
-
-<li class="nav-item">
-    <a href="{{ url_for('main.dashboard') }}" class="nav-link text-white">
-        <i class="fas fa-camera me-2" style="width: 20px;"></i> My Cameras
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ url_for('main.subscription') }}" class="nav-link text-white">
-        <i class="fas fa-credit-card me-2" style="width: 20px;"></i> Subscription
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ url_for('main.support') }}" class="nav-link text-white">
-        <i class="fas fa-headset me-2" style="width: 20px;"></i> Support
-    </a>
-</li>
-{% endif %}
-
-<!-- ADMIN SECTION -->
-{% if session.get('role') == 'admin' %}
-<li class="nav-item my-3 border-top border-secondary"></li>
-<li class="nav-item mb-2 small text-uppercase text-muted fw-bold" style="font-size: 0.7rem;">Admin Controls</li>
-
-<li class="nav-item">
-    <a href="{{ url_for('video.video_management') }}" class="nav-link {% if request.endpoint and 'video' in request.endpoint %}active{% endif %}">
-        <i class="fas fa-film me-2" style="width: 20px;"></i> Manage Videos
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ url_for('features.manage_cameras') }}" class="nav-link {% if request.endpoint == 'features.manage_cameras' %}active{% endif %}">
-        <i class="fas fa-cog me-2" style="width: 20px;"></i> Configure Cameras
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ url_for('admin.manage_users') }}" class="nav-link {% if request.endpoint == 'admin.manage_users' %}active{% endif %}">
-        <i class="fas fa-users-cog me-2" style="width: 20px;"></i> Users
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ url_for('admin.global_stats') }}" class="nav-link {% if request.endpoint == 'admin.global_stats' %}active{% endif %}">
-        <i class="fas fa-chart-pie me-2" style="width: 20px;"></i> Analytics
-    </a>
-</li>
-
-<li class="nav-item">
-    <a href="{{ url_for('admin.config') }}" class="nav-link {% if request.endpoint == 'admin.config' %}active{% endif %}">
-        <i class="fas fa-sliders-h me-2" style="width: 20px;"></i> Settings
-    </a>
-</li>
-{% endif %}
-            
-        </ul> 
-        <!-- END OF THE LIST (Make sure your items are above this line) -->
-        
-        <!-- LOGOUT AT BOTTOM -->
-        <div class="mt-auto pt-4 border-top border-secondary">
-            <a href="{{ url_for('auth.logout') }}" class="nav-link text-danger">
-                <i class="fas fa-sign-out-alt me-2" style="width: 20px;"></i> Logout
-            </a>
-        </div>
-    </nav>
-    {% endif %}
-            
-    <!-- MAIN CONTENT AREA -->
-    <main class="{% if user %}col-md-10{% else %}col-12{% endif %} main-content p-4 bg-light">
-      
-      <!-- Flash Messages -->
-      <!-- Only show global alerts if NOT on login or signup pages -->
-{% if request.endpoint != 'auth.login' and request.endpoint != 'auth.signup' %}
-    
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show m-3">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
+            </div>
+        </nav>
         {% endif %}
-    {% endwith %}
 
-{% endif %}
-        
-      <!-- Content Block -->
-      {% block content %}{% endblock %}
-    </main>
-    
-  </div>
+        <!-- ===================== MAIN CONTENT ===================== -->
+        <main class="{% if user %}col-md-10{% else %}col-12{% endif %} main-content p-4 bg-light">
+
+            <!-- Flash Messages (Hidden on Auth Pages) -->
+            {% if request.endpoint not in ['auth.login', 'auth.signup'] %}
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show m-3">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+
+            <!-- Page Content -->
+            {% block content %}{% endblock %}
+        </main>
+
+    </div>
 </div>
-    
+
+<!-- ===================== TOAST CONTAINER ===================== -->
 {% if user %}
-<!-- IN-APP NOTIFICATION TOASTS -->
-<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;" id="notifToastContainer"></div>
+<div class="toast-container position-fixed top-0 end-0 p-3"
+     style="z-index: 9999;" id="notifToastContainer"></div>
 {% endif %}
 
-<!-- Scripts -->
+<!-- ===================== SCRIPTS ===================== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
 <script>
-  // Simple Sidebar Toggle Script
-  document.addEventListener("DOMContentLoaded", function () {
-    const btn = document.getElementById("sidebarToggle");
-    if (!btn) return;
-
-    btn.addEventListener("click", function () {
-      document.body.classList.toggle("sidebar-collapsed");
+    // ===== Sidebar Toggle =====
+    document.addEventListener("DOMContentLoaded", function () {
+        const btn = document.getElementById("sidebarToggle");
+        if (btn) {
+            btn.addEventListener("click", function () {
+                document.body.classList.toggle("sidebar-collapsed");
+            });
+        }
     });
-  });
-  {% if user %}
-  // ===== IN-APP ANOMALY NOTIFICATIONS =====
-  // Polls the server every 8s for new anomalies on this user's cameras
-  // and shows a Bootstrap toast for each one. No external push service.
-  (function () {
-    let lastCheck = null;
 
-    function showAnomalyToast(anomaly) {
-      const container = document.getElementById('notifToastContainer');
-      if (!container) return;
+    {% if user %}
+    // ===== IN-APP ANOMALY NOTIFICATIONS =====
+    (function () {
+        let lastCheck = null;
 
-      const toastEl = document.createElement('div');
-      toastEl.className = 'toast align-items-center text-white bg-danger border-0';
-      toastEl.setAttribute('role', 'alert');
-      toastEl.innerHTML = `
-        <div class="d-flex">
-          <div class="toast-body">
-            <strong><i class="fas fa-exclamation-triangle me-1"></i> ${anomaly.anomaly_type || 'Anomaly detected'}</strong><br>
-            <small>${anomaly.description || ''}</small>
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>`;
-      container.appendChild(toastEl);
-      const toast = new bootstrap.Toast(toastEl, { delay: 8000 });
-      toast.show();
-      toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
-    }
+        function showAnomalyToast(anomaly) {
+            const container = document.getElementById('notifToastContainer');
+            if (!container) return;
 
-    function pollNotifications() {
-      let url = '/my-cameras/notifications/poll';
-      if (lastCheck) url += '?since=' + encodeURIComponent(lastCheck);
+            const toastEl = document.createElement('div');
+            toastEl.className = 'toast align-items-center text-white bg-danger border-0';
+            toastEl.setAttribute('role', 'alert');
+            toastEl.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <strong><i class="fas fa-exclamation-triangle me-1"></i>
+                            ${anomaly.anomaly_type || 'Anomaly detected'}
+                        </strong><br>
+                        <small>${anomaly.description || ''}</small>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                            data-bs-dismiss="toast"></button>
+                </div>`;
+            container.appendChild(toastEl);
+            const toast = new bootstrap.Toast(toastEl, { delay: 8000 });
+            toast.show();
+            toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
+        }
 
-      fetch(url)
-        .then(res => res.ok ? res.json() : null)
-        .then(data => {
-          if (!data) return;
-          lastCheck = data.server_time;
-          (data.anomalies || []).reverse().forEach(showAnomalyToast);
-        })
-        .catch(() => {});
-    }
+        function pollNotifications() {
+            let url = '/my-cameras/notifications/poll';
+            if (lastCheck) url += '?since=' + encodeURIComponent(lastCheck);
 
-    // First call just sets the starting timestamp, doesn't show old alerts
-    pollNotifications();
-    setInterval(pollNotifications, 8000);
-  })();
-  {% endif %}
+            fetch(url)
+                .then(res => res.ok ? res.json() : null)
+                .then(data => {
+                    if (!data) return;
+                    lastCheck = data.server_time;
+                    (data.anomalies || []).reverse().forEach(showAnomalyToast);
+                })
+                .catch(() => {});
+        }
+
+        // Initial call sets baseline, subsequent polls fetch new alerts
+        pollNotifications();
+        setInterval(pollNotifications, 8000);
+    })();
+    {% endif %}
 </script>
+
 </body>
 </html>
