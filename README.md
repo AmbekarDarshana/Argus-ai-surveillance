@@ -1,4 +1,3 @@
-<img width="1897" height="971" alt="Screenshot 2026-11-09 190356" src="https://github.com/user-attachments/assets/ac9d3a90-e878-43d4-9fc7-81c6ba537053" />
 # 👁️ Argus AI — Intelligent Video Surveillance & Behavioral Analysis
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
